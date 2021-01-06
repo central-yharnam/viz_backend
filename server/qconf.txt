@@ -1,0 +1,9 @@
+
+
+{"algorithm": ["lecar", "lfu"], 
+"cache_size": [0.01], 
+"dataset": ["CloudCache", "FIU"],
+"trace-file": [],
+"graph options": ["-lecar lru", "-rq"]
+}
+

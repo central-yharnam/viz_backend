@@ -1,0 +1,177 @@
+Many functions in the API take a config as an argument, as such it is important to be familiar with the config format.
+
+example config:
+{
+	\*\*"cache_sizes": [0.001, 0.01],
+	\*\*"traces": ["homes-110108-112108.19.blkparse", "./homes-sample.blkparse"],
+
+	\*\*"algorithms": ["alecar6", "lecar", "dlirs", "arc", "cacheus"],
+
+	"alecar6": {
+		"learning_rate": [0.1, 0.2]
+	},
+
+	"lecar": {
+		"learning_rate": [0.1]
+	}
+}
+\*\*DENOTES NECESSARY FIELD
+
+config must be in JSON format
+
+list of valid algorithms a user can specify: "arc","arcalecar", "cacheus","dlirs", "lecar", "lfu", "lirs", "lru"
+
+adaptive algorithms can have an optional argument of learning rate specified. To do this, write the name of the algorithm
+you want to pass a learning rate to and specify a list of values between 0.0 and 1.0 that you want to test. 
+
+
+
+list of adaptive algorithms: alecar, cacheus, lecar
+
+algorithms and their acceptable optional arguments:
+
+arcalecar: "initial_weight", "history_size"
+cacheus: "learning_rate"
+dlirs:"hirs_ratio"
+lecar:"learning_rate", "initial_weight", "history_size"
+lirs:"hirs_ratio"
+
+
+
+
+================================================================
+
+#get_graph:
+POST method
+route: /get_graph
+
+JSON input:
+
+{
+"config": {JSON with config data, see example above}
+"params": ["-plot", "trace-name", "algorithm", "cache-size"]
+"id": unique string to identify this get graph request
+}
+
+JSON output:
+
+{
+"xaxis":[list of x values]
+"yaxis":[list of y values]
+"res_title":string with title
+}
+
+====================================================
+
+#get_graph_status:
+POST method
+route: /status
+
+JSON input:
+{
+"id": unique string to identify this get graph request
+}
+
+JSON output:
+{
+"status": string with current status
+}
+
+====================================================
+
+====================================================
+
+#get_heat:
+POST method
+route: /get_heat
+
+possible dataset values: ["FIU", "CloudCache", "MSR", "CloudPhysics", "CloudVPS"]
+possible algorithm values: ["arc","arcalecar", "cacheus","dlirs", "lecar", "lfu", "lirs", "lru"]
+
+JSON input
+{
+"dataset": [list of desired datasets from the above list]
+"algorithms": [list of desired algorithms from the above list]
+"cache_size":[list of values greater than 0.0 and less than or equal to 1.0]
+}
+
+JSON output
+{
+"x_cache":[list of cache sizes]
+"y_algs": [list of algorithms]
+"data":[2d list where "data"[0] corresponds to the list of result values for the first data set and so on] 
+}
+
+====================================================
+
+====================================================
+
+#get_permutation:
+POST method
+route: /get_permutations
+
+valid plots: -H (hit rate over time), -m (miss rate over time), -P (pollution over time)
+
+JSON input
+{
+"config": {JSON of config, example at top}
+"graph_flag": [list of plots to compare]
+}
+
+JSON output
+{
+"traces": [list of pairs]
+}
+
+====================================================
+
+====================================================
+
+#get_trace_options:
+POST method
+route: /get_trace_options
+
+possible dataset values: ["FIU", "CloudCache", "MSR", "CloudPhysics", "CloudVPS"]
+
+JSON input
+{
+"dataset": string of one of the 5 possible datasets
+}
+
+JSON output
+{
+"traces": list of all traces in specified dataset
+}
+
+====================================================
+
+====================================================
+
+#mongo_configs:
+GET method
+route: /mongo_conf
+
+JSON output:
+list of all configs where keys correspond to index of config
+
+{"0":first config
+"1": second config
+...}
+
+====================================================
+
+====================================================
+
+get_conf_options:
+GET method
+route: /get_conf_options
+
+Returns a string of a dictionary with all unique values in Mongo that are valid to choose for graphing, cache sizes, algorithms and datasets
+
+
+JSON output:
+
+{"algorithm": [list of valid algorithms]
+"cache_size": [list of valid cache sizes]
+"dataset":[list of valid datasets]}
+====================================================

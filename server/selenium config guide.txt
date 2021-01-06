@@ -1,0 +1,11 @@
+
+
+{
+"algorithm": ["lecar", "lfu"], if an empty list is given, all will be selected in selenium
+"cache_size": [], if an empty list is given, all will be selected in selenium
+"dataset": ["CloudCache"], if an empty list is given, all will be selected in selenium
+"trace-file": [], if an empty list is given, one random trace from each dataset specified will be chosen
+"graph options": ["-lecar lru", "-rq"] graph options must be specified. 
+}
+
+the dictionary keys correspond to the names on the website and it's how the selenium script finds the objects to click on them so they're all case sensitive.
